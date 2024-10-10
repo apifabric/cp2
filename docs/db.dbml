@@ -1,0 +1,90 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table CarModel {
+    id INTEGER
+    name VARCHAR
+    manufacturer_id INTEGER
+    }
+
+Table Manufacturer {
+    id INTEGER
+    name VARCHAR
+    country VARCHAR
+    }
+
+Table Customer {
+    id INTEGER
+    name VARCHAR
+    email VARCHAR
+    }
+
+Table Employee {
+    id INTEGER
+    name VARCHAR
+    position VARCHAR
+    }
+
+Table Inventory {
+    id INTEGER
+    part_id INTEGER
+    quantity INTEGER
+    supplier_id INTEGER
+    }
+
+Table Part {
+    id INTEGER
+    name VARCHAR
+    category_id INTEGER
+    car_model_id INTEGER
+    price FLOAT
+    }
+
+Table Supplier {
+    id INTEGER
+    name VARCHAR
+    address VARCHAR
+    }
+
+Table Order {
+    id INTEGER
+    customer_id INTEGER
+    order_date DATETIME
+    }
+
+Table OrderLine {
+    id INTEGER
+    order_id INTEGER
+    part_id INTEGER
+    quantity INTEGER
+    }
+
+Table PartCategory {
+    id INTEGER
+    name VARCHAR
+    }
+
+Table Shipment {
+    id INTEGER
+    date DATETIME
+    order_id INTEGER
+    }
+
+Table Warehouse {
+    id INTEGER
+    location VARCHAR
+    capacity INTEGER
+    }
+
+
+
+// Relationships
+    Ref: CarModel.(manufacturer_id) < Manufacturer.(id)
+    Ref: Inventory.(part_id) < Part.(id)
+    Ref: Inventory.(supplier_id) < Supplier.(id)
+    Ref: Part.(car_model_id) < CarModel.(id)
+    Ref: Part.(category_id) < PartCategory.(id)
+    Ref: Order.(customer_id) < Customer.(id)
+    Ref: OrderLine.(order_id) < Order.(id)
+    Ref: OrderLine.(part_id) < Part.(id)
+    Ref: Shipment.(order_id) < Order.(id)

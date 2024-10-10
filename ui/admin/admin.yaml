@@ -1,0 +1,295 @@
+about:
+  date: October 10, 2024 12:28:10
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 9
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  CarModel:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: manufacturer_id
+    - name: id
+    description: Table of car models
+    info_list: Table of car models
+    tab_groups:
+    - direction: tomany
+      fks:
+      - car_model_id
+      name: PartList
+      resource: Part
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    type: CarModel
+    user_key: name
+  Customer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: id
+    description: Table of customers
+    info_list: Table of customers
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: OrderList
+      resource: Order
+    type: Customer
+    user_key: name
+  Employee:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: position
+    - name: id
+    description: Table of employees
+    info_list: Table of employees
+    type: Employee
+    user_key: name
+  Inventory:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: part_id
+    - name: supplier_id
+    - name: quantity
+    description: Table of inventory
+    info_list: Table of inventory
+    tab_groups:
+    - direction: toone
+      fks:
+      - part_id
+      name: part
+      resource: Part
+    - direction: toone
+      fks:
+      - supplier_id
+      name: supplier
+      resource: Supplier
+    type: Inventory
+    user_key: id
+  Manufacturer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: country
+    - name: id
+    description: Table of car part manufacturers
+    info_list: Table of car part manufacturers
+    tab_groups:
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: CarModelList
+      resource: CarModel
+    type: Manufacturer
+    user_key: name
+  Order:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+    - name: order_date
+    description: Table of orders
+    info_list: Table of orders
+    tab_groups:
+    - direction: tomany
+      fks:
+      - order_id
+      name: OrderLineList
+      resource: OrderLine
+    - direction: tomany
+      fks:
+      - order_id
+      name: ShipmentList
+      resource: Shipment
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    type: Order
+    user_key: id
+  OrderLine:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: order_id
+    - name: part_id
+    - name: quantity
+    description: Table of order lines
+    info_list: Table of order lines
+    tab_groups:
+    - direction: toone
+      fks:
+      - order_id
+      name: order
+      resource: Order
+    - direction: toone
+      fks:
+      - part_id
+      name: part
+      resource: Part
+    type: OrderLine
+    user_key: id
+  Part:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: car_model_id
+    - name: category_id
+    - name: price
+    - name: id
+    description: Table of car parts
+    info_list: Table of car parts
+    tab_groups:
+    - direction: tomany
+      fks:
+      - part_id
+      name: InventoryList
+      resource: Inventory
+    - direction: tomany
+      fks:
+      - part_id
+      name: OrderLineList
+      resource: OrderLine
+    - direction: toone
+      fks:
+      - car_model_id
+      name: car_model
+      resource: CarModel
+    - direction: toone
+      fks:
+      - category_id
+      name: category
+      resource: PartCategory
+    type: Part
+    user_key: name
+  PartCategory:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: id
+    description: Table of part categories
+    info_list: Table of part categories
+    tab_groups:
+    - direction: tomany
+      fks:
+      - category_id
+      name: PartList
+      resource: Part
+    type: PartCategory
+    user_key: name
+  Shipment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: order_id
+    - name: date
+    description: Table of shipments
+    info_list: Table of shipments
+    tab_groups:
+    - direction: toone
+      fks:
+      - order_id
+      name: order
+      resource: Order
+    type: Shipment
+    user_key: id
+  Supplier:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: address
+    - name: id
+    description: Table of suppliers
+    info_list: Table of suppliers
+    tab_groups:
+    - direction: tomany
+      fks:
+      - supplier_id
+      name: InventoryList
+      resource: Inventory
+    type: Supplier
+    user_key: name
+  Warehouse:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: location
+      required: true
+    - name: capacity
+    description: Table of warehouses
+    info_list: Table of warehouses
+    type: Warehouse
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'
